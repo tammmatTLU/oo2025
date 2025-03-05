@@ -70,10 +70,11 @@ for (var i = 0; i < riigid.length; i++) {
     console.log(rida);
 }
 console.log("=".repeat(tulbad.length * tulbaLaius));
-/*
-console.log(`Riigid ja nende rahvastikutihedused kahanemise järjekorras: ${riigid.map(riik => "\n" + riik.nimi + " " + riik.rahvastikuTihedus() + " in/km^2")}`);
-console.log(`EL riigid: ${ELRiigid.map(riik => riik.nimi)}`);
-console.log(`Mitme keelega riigid: ${riigid.filter(riik => riik.mituRiigikeelt() > 1).map(riik => riik.nimi)}`);
+console.log("Riigid ja nende rahvastikutihedused kahanemise j\u00E4rjekorras: ".concat(riigid.map(function (riik) { return "\n" + riik.nimi + " " + riik.rahvastikuTihedus() + " in/km^2"; })));
+console.log("=".repeat(tulbad.length * tulbaLaius));
+console.log("EL riigid: ".concat(ELRiigid.map(function (riik) { return riik.nimi; })));
+console.log("=".repeat(tulbad.length * tulbaLaius));
+console.log("Mitme keelega riigid: ".concat(riigid.filter(function (riik) { return riik.mituRiigikeelt() > 1; }).map(function (riik) { return riik.nimi; })));
+console.log("=".repeat(tulbad.length * tulbaLaius));
 console.log("Riigid ja nende keeled");
-riigid.forEach(riik => console.log(riik.nimi + ": " + riik.misRiigikeeled().join(", ")));
-*/ 
+riigid.forEach(function (riik) { return console.log(riik.nimi + ": " + riik.misRiigikeeled().join(", ")); });

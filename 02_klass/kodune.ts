@@ -54,7 +54,7 @@ for(let riik of riigid){
     }
 }
 
-let sorteeritud: boolean = false
+let sorteeritud: boolean = false;
 while(sorteeritud == false){
     sorteeritud = true;
     for(let i = 0; i < riigid.length - 1; i++){
@@ -78,10 +78,12 @@ for(let i = 0; i < riigid.length; i++){
     console.log(rida);
 }
 console.log("=".repeat(tulbad.length * tulbaLaius));
-/*
+
 console.log(`Riigid ja nende rahvastikutihedused kahanemise järjekorras: ${riigid.map(riik => "\n" + riik.nimi + " " + riik.rahvastikuTihedus() + " in/km^2")}`);
+console.log("=".repeat(tulbad.length * tulbaLaius));
 console.log(`EL riigid: ${ELRiigid.map(riik => riik.nimi)}`);
+console.log("=".repeat(tulbad.length * tulbaLaius));
 console.log(`Mitme keelega riigid: ${riigid.filter(riik => riik.mituRiigikeelt() > 1).map(riik => riik.nimi)}`);
+console.log("=".repeat(tulbad.length * tulbaLaius));
 console.log("Riigid ja nende keeled");
 riigid.forEach(riik => console.log(riik.nimi + ": " + riik.misRiigikeeled().join(", ")));
-*/

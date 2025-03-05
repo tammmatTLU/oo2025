@@ -6,7 +6,7 @@ P=U*I
 I=U/R
 
 */
-class Resistor {
+class Resistor1 {
     r: number = 0;
     PMax: number = 0;
     constructor(r: number, PMax: number) {
@@ -23,13 +23,13 @@ class Resistor {
       return this.getPower(u) <= this.PMax;
     }
   }
-let resistors: Resistor[] = [
-  new Resistor(220, 0.5),
-  new Resistor(110, 0.5),
-  new Resistor(4700, 0.5)
+let resistors: Resistor1[] = [
+  new Resistor1(220, 0.5),
+  new Resistor1(110, 0.5),
+  new Resistor1(4700, 0.5)
 ]
 let u: number = 13;
-let vastus: Resistor[] = [];
+let vastus: Resistor1[] = [];
 for (let resistor of resistors) {
   console.log(resistor.isVoltageAllowed(u));
   if(resistor.isVoltageAllowed(u) == true) {
