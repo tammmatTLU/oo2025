@@ -11,9 +11,11 @@ Hulknurk
 class Hulknurk {
     x: number[];
     y: number[];
-    constructor(x: number[], y: number[]){
+    ctx: CanvasRenderingContext2D;
+    constructor(ctx: CanvasRenderingContext2D, x: number[], y: number[]){
         this.x = x;
         this.y = y;
+        this.ctx = ctx;
     }
 
     kuva():void {
@@ -27,15 +29,22 @@ class Hulknurk {
         this.y.push(y);
     }
 
-    draw(ctx): void {
-        ctx.beginPath();
-        ctx.moveTo(this.x[0], this.y[0]);
+    draw(): void {
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.x[0], this.y[0]);
         for(let i = 1; i<this.x.length; i++){
-            ctx.lineTo(this.x[i], this.y[i]);
+            this.ctx.lineTo(this.x[i], this.y[i]);
         }
-        ctx.lineTo(this.x[0], this.y[0]);
-        ctx.endPath();
-        ctx.stroke();
+        this.ctx.lineTo(this.x[0], this.y[0]);
+        this.ctx.stroke();
+    }
+    clear(): void {
+        let minX: number = Math.min(...this.x) - 1;
+        let minY: number = Math.min(...this.y) - 1;
+        let maxX: number = Math.max(...this.x) + 1;
+        let maxY: number = Math.max(...this.y) + 1;
+
+        this.ctx.clearRect(minX, minY, maxX - minX, maxY - minY);
     }
 
     ymbermoot(): number {
@@ -65,26 +74,25 @@ class Hulknurk {
         return punktideAsukohad;
     }
 
-    nihuta(ctx, niheX: number, niheY: number): void{
+    nihuta(niheX: number, niheY: number): void{
+        this.clear();
         for(let i = 0; i < this.x.length; i++){
             this.x[i] += niheX;
             this.y[i] += niheY;
         }
-        ctx.clearRect(this.x[0], this.y[0], this.x[this.x.length - 1], this.y[this.y.length - 1]);
-        ctx.beginPath();
-        ctx.moveTo(this.x[0], this.y[0]);
-        for(let i = 1; i<this.x.length; i++){
-            ctx.lineTo(this.x[i], this.y[i]);
-        }
-        ctx.lineTo(this.x[0], this.y[0]);
-        ctx.endPath();
-        ctx.stroke();
+        this.draw();
     }
 
     suurendaVahenda(kordaja: number): void{
+        this.clear();
+        let niheX: number = this.x[0] - this.x[0] * kordaja;
+        let niheY: number = this.y[0] - this.y[0] * kordaja;
         for(let i = 0; i < this.x.length; i++){
             this.x[i] *= kordaja;
             this.y[i] *= kordaja;
+            this.x[i] += niheX;
+            this.y[i] += niheY;
         }
+        this.draw();
     }
 }

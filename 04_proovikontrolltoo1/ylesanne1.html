@@ -5,16 +5,16 @@
     <script src="ylesanne1.js"></script>
     <script>
       function startPage(){
-        let hulknurk1 = new Hulknurk([100, 200, 200, 100], [100, 100, 200, 200]);
-        let hulknurk2 = new Hulknurk([300, 400, 350], [100, 100, 250]);
-        let hulknurk3 = new Hulknurk([450, 550, 500], [100, 100, 250]);
-
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
 
-        hulknurk1.draw(ctx);
-        hulknurk2.draw(ctx);
-        hulknurk3.draw(ctx);
+        let hulknurk1 = new Hulknurk(ctx, [100, 200, 200, 100], [100, 100, 200, 200]);
+        let hulknurk2 = new Hulknurk(ctx, [300, 400, 350], [100, 100, 250]);
+        let hulknurk3 = new Hulknurk(ctx, [450, 550, 500], [100, 100, 250]);
+
+        hulknurk1.draw();
+        hulknurk2.draw();
+        hulknurk3.draw();
         /*
         console.log(hulknurk1.ymbermoot());
         console.log(hulknurk2.ymbermoot());
@@ -26,8 +26,8 @@
         console.log("Punktide asukohad: " + hulknurk2.punktideAsukohad());
         console.log("Punktide asukohad: " + hulknurk3.punktideAsukohad());
         */
-        hulknurk1.nihuta(200, 300);
-        hulknurk1.draw(ctx);
+        //hulknurk1.nihuta(100, 100);
+        //hulknurk1.suurendaVahenda(1);
       }
     </script>
     <meta charset="utf-8">
