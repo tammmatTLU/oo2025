@@ -3,9 +3,36 @@
   <head>
     <title>Hulknurk</title>
     <script src="ylesanne1.js"></script>
+    <script>
+      function startPage(){
+        let hulknurk1 = new Hulknurk([100, 200, 200, 100], [100, 100, 200, 200]);
+        let hulknurk2 = new Hulknurk([300, 400, 350], [100, 100, 250]);
+        let hulknurk3 = new Hulknurk([450, 550, 500], [100, 100, 250]);
+
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+
+        hulknurk1.draw(ctx);
+        hulknurk2.draw(ctx);
+        hulknurk3.draw(ctx);
+        /*
+        console.log(hulknurk1.ymbermoot());
+        console.log(hulknurk2.ymbermoot());
+        console.log(hulknurk3.ymbermoot());
+        console.log("Külgede pikkused: " + hulknurk1.kylgedePikkused());
+        console.log("Külgede pikkused: " + hulknurk2.kylgedePikkused());
+        console.log("Külgede pikkused: " + hulknurk3.kylgedePikkused());
+        console.log("Punktide asukohad: " + hulknurk1.punktideAsukohad());
+        console.log("Punktide asukohad: " + hulknurk2.punktideAsukohad());
+        console.log("Punktide asukohad: " + hulknurk3.punktideAsukohad());
+        */
+        hulknurk1.nihuta(200, 300);
+        hulknurk1.draw(ctx);
+      }
+    </script>
     <meta charset="utf-8">
   </head>
-  <body>
-      <canvas id="canvas1" width="400" height="300"></canvas>
+  <body onload="startPage()">
+      <canvas id="canvas" width="700" height="600" style="border:1px solid #000000"></canvas>
   </body>
 </html>

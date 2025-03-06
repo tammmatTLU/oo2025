@@ -11,12 +11,10 @@ Hulknurk
 class Hulknurk {
     x: number[];
     y: number[];
-    constructor(protected ctx, x: number[], y: number[]){
+    constructor(x: number[], y: number[]){
         this.x = x;
         this.y = y;
-        this.draw();
     }
-
 
     kuva():void {
         console.log("Hulknurga nurkade koordinaadid on:")
@@ -24,11 +22,24 @@ class Hulknurk {
             console.log(`(${this.x[i]}, ${this.y[i]})`);
         }
     }
-    lisaPunkt(x: number, y:number): number {
-        let ymbermoot = 0;
+    lisaPunkt(x: number, y:number): void {
         this.x.push(x);
         this.y.push(y);
+    }
 
+    draw(ctx): void {
+        ctx.beginPath();
+        ctx.moveTo(this.x[0], this.y[0]);
+        for(let i = 1; i<this.x.length; i++){
+            ctx.lineTo(this.x[i], this.y[i]);
+        }
+        ctx.lineTo(this.x[0], this.y[0]);
+        ctx.endPath();
+        ctx.stroke();
+    }
+
+    ymbermoot(): number {
+        let ymbermoot = 0;
         for(let i = 0; i < this.x.length - 1; i++){
             ymbermoot+= Math.sqrt(Math.pow(this.x[i + 1] - this.x[i], 2) + Math.pow(this.y[i + 1] - this.y[i], 2));
         }
@@ -37,23 +48,43 @@ class Hulknurk {
         return ymbermoot;
     }
 
-    draw(): void {
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.x[0], this.y[0]);
-        for(let i = 1; i<this.x.length; i++){
-            this.ctx.lineTo(this.x[i], this.y[i]);
+    kylgedePikkused(): number[] {
+        let kylgedePikkused: number[] = [];
+        for(let i = 0; i < this.x.length - 1; i++){
+            kylgedePikkused.push(Math.sqrt(Math.pow(this.x[i + 1] - this.x[i], 2) + Math.pow(this.y[i + 1] - this.y[i], 2)));
         }
-        this.ctx.lineTo(this.x[0], this.y[0]);
-        this.ctx
-        this.ctx.stroke();
+        kylgedePikkused.push(Math.sqrt(Math.pow(this.x[0] - this.x[this.x.length - 1], 2) + Math.pow(this.y[0] - this.y[this.y.length - 1], 2)));
+        return kylgedePikkused;
     }
-}
-let canvas, ctx, hulknurk1, hulknurk2;
-window.onload = function(){
-    canvas = document.querySelector('#canvas1');
-    ctx = canvas.getContext('2d');
-    hulknurk1 = new Hulknurk(ctx, [100, 200, 200], [100, 100, 200]);
-    hulknurk1.draw();
-    hulknurk1.lisaPunkt(150, 150);
-    hulknurk1.kuva();
+
+    punktideAsukohad(): string[][] {
+        let punktideAsukohad: string[][] = [];
+        for(let i = 0; i < this.x.length; i++){
+            punktideAsukohad.push([`(${this.x[i]}; ${this.y[i]})`]);
+        }
+        return punktideAsukohad;
+    }
+
+    nihuta(ctx, niheX: number, niheY: number): void{
+        for(let i = 0; i < this.x.length; i++){
+            this.x[i] += niheX;
+            this.y[i] += niheY;
+        }
+        ctx.clearRect(this.x[0], this.y[0], this.x[this.x.length - 1], this.y[this.y.length - 1]);
+        ctx.beginPath();
+        ctx.moveTo(this.x[0], this.y[0]);
+        for(let i = 1; i<this.x.length; i++){
+            ctx.lineTo(this.x[i], this.y[i]);
+        }
+        ctx.lineTo(this.x[0], this.y[0]);
+        ctx.endPath();
+        ctx.stroke();
+    }
+
+    suurendaVahenda(kordaja: number): void{
+        for(let i = 0; i < this.x.length; i++){
+            this.x[i] *= kordaja;
+            this.y[i] *= kordaja;
+        }
+    }
 }
