@@ -6,19 +6,30 @@ Harmooniline keskmine
 * Funktsioonile antakse ette kilomeetripikkuste lõikude läbimiste keskmised kiirused kogumina (km/h). Väljasta kogu selle tee läbimise keskmine kiirus.
 
 * Koosta klass, millele saab lisada kilomeetripikkuste lõikude keskmisi kiirusi. Kuva joonisel sõiduki asukoht iga minuti järel.
+
 */
-function avgOfTwo(speed1, speed2) {
-    var avgSpeed = (speed1 + speed2) / 2;
+/*function avgOfTwo(speed1: number, speed2: number): number {
+    let duration1: number = 1 / speed1;
+    let duration2: number = 1 / speed2;
+    let avgSpeed: number = 2 / (duration1 + duration2);
+
     return avgSpeed;
 }
-function avgOfArray(array) {
-    var sum = 0;
-    for (var i = 0; i < array.length; i++) {
-        sum += array[i];
+
+console.log(avgOfTwo(30, 60));
+
+function avgOfArray(array: number[]): number{
+    let durationSum: number = 0;
+    for(let i = 0; i < array.length; i++){
+        durationSum += 1 / array[i];
     }
-    var average = sum / array.length;
-    return average;
+    let average: number = array.length / durationSum;
+
+    return average
 }
+console.log(avgOfArray([5, 5, 10, 10, 20]));
+
+*/
 //console.log(avgOfTwo(20,10));
 //console.log(avgOfArray([5, 5, 10, 10, 20]));
 var speedGraph = /** @class */ (function () {
@@ -60,23 +71,24 @@ var speedGraph = /** @class */ (function () {
             this.ctx.fillText("".concat(i), divisionPoints[i], this.graphHeight + 2 * this.dividerLength + 20);
         }
         var timeTotal = 0;
+        var prevDistance = 0;
         for (var i = 0; i < this.speeds.length; i++) {
             var timeKm = 1 / this.speeds[i] * 60;
+            var distanceInMinute = this.speeds[i] / 60;
             for (var j = 0; j < timeKm; j++) {
                 this.ctx.beginPath();
-                this.ctx.moveTo(this.graphStart + j * divisionLength / timeKm + i * divisionLength, this.graphHeight);
-                this.ctx.lineTo(this.graphStart + j * divisionLength / timeKm + i * divisionLength, this.graphHeight - this.dividerLength);
+                this.ctx.moveTo(this.graphStart + prevDistance, this.graphHeight);
+                this.ctx.lineTo(this.graphStart + prevDistance, this.graphHeight - this.dividerLength);
                 this.ctx.stroke();
-                this.ctx.fillText("".concat(timeTotal), this.graphStart + j * divisionLength / timeKm + i * divisionLength - 5, this.graphHeight - this.dividerLength - 5);
+                this.ctx.fillText("".concat(timeTotal), this.graphStart + prevDistance - 5, this.graphHeight - this.dividerLength - 5);
                 timeTotal++;
+                prevDistance += distanceInMinute * divisionLength;
             }
         }
-        console.log(timeTotal);
         this.ctx.beginPath();
         this.ctx.moveTo(graphEnd, this.graphHeight);
         this.ctx.lineTo(graphEnd, this.graphHeight - this.dividerLength);
         this.ctx.stroke();
-        this.ctx.fillText("".concat(timeTotal), graphEnd, this.graphHeight - this.dividerLength - 5);
         this.ctx.fillText('min', this.graphStart - 30, this.graphHeight - 20);
         this.ctx.fillText('km', this.graphStart - 30, this.graphHeight + 20);
     };
