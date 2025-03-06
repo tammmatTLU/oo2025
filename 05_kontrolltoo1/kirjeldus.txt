@@ -1,3 +1,11 @@
 Õppejõu käest valitud kolme tasemega kontrolltööülesanne.
 
 Punktid võib esitada eraldi programmidena
+
+Harmooniline keskmine
+
+* Koosta funktsioon, mille sisendiks on kahe kilomeetripikkuse lõigu läbimise kiirused (km/h), väljundiks nende kahe kilomeetri läbimise keskmine kiirus.
+
+* Funktsioonile antakse ette kilomeetripikkuste lõikude läbimiste keskmised kiirused kogumina (km/h). Väljasta kogu selle tee läbimise keskmine kiirus.
+
+* Koosta klass, millele saab lisada kilomeetripikkuste lõikude keskmisi kiirusi. Kuva joonisel sõiduki asukoht iga minuti järel.
