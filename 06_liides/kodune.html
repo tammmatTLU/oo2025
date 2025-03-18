@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="kodune.js" defer></script>
+    <script>
+        window.onload = function(){
+            document.querySelector("#shapeType").addEventListener("change", display)
+            document.querySelector("#calculateBtn").addEventListener("click", calculate)
+            display();
+        }
+
+        function calculate(){
+            let newShape;
+            if(document.querySelector("#shapeType").value == "Circle"){
+                newShape = new Circle(parseInt(document.querySelector("#radius").value));
+            } else if(document.querySelector("#shapeType").value == "Rectangle"){
+                newShape = new Rectangle(parseInt(document.querySelector("#width").value), parseInt(document.querySelector("#height").value));
+            }
+            console.log(newShape);
+            document.querySelector("#perimResult").innerText = newShape.perimeter() + " ühikut";
+            document.querySelector("#areaResult").innerText = newShape.area() + " ruutühikut";
+
+        }
+
+        function display(){
+            document.querySelector("#perimResult").innerText = "";
+            document.querySelector("#areaResult").innerText = "";
+            let inputs = [];
+            let inputContainer = document.querySelector("#inputContainer");
+            inputContainer.innerHTML = "";
+            console.log(document.querySelector("#shapeType").value)
+            if(document.querySelector("#shapeType").value == "Circle"){
+                inputs.push("radius");
+            } else if(document.querySelector("#shapeType").value == "Rectangle"){
+                inputs.push("width", "height");
+            }
+            for(let i=0;i<inputs.length;i++){
+                const numberInput = document.createElement("input");
+                numberInput.setAttribute("type", "number");
+                numberInput.setAttribute("min", "0");
+                numberInput.setAttribute("id", inputs[i]);
+                const inputLabel = document.createElement("label");
+                inputLabel.setAttribute("for", inputs[i]);
+                inputLabel.innerText = inputs[i];
+                inputContainer.appendChild(inputLabel);
+                inputContainer.appendChild(numberInput);
+            }
+        }
+
+    </script>
+    <title>Kujundite liides</title>
+</head>
+<body>
+    <select name="shapeType" id="shapeType">
+        <option value="Circle">Ring</option>
+        <option value="Rectangle">Ristkülik</option>
+    </select>
+    <div id="inputContainer">Sisestusväljad</div>
+    <button id="calculateBtn">Arvuta</button>
+    <div id="results">
+        Ümbermõõt = <div id="perimResult"></div>
+        Pindala = <div id="areaResult"></div>
+    </div>
+
+</body>
+</html>

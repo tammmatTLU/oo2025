@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="arvutused1.js" ></script>
+    <script defer>
+        const calculations = [new InchesToCm(), new CmToInches()];
+        window.onload = function(){
+            document.querySelector("#submitBtn").addEventListener("click", display);
+            document.querySelector("#calcType").addEventListener("change", display);
+            display();
+        }
+
+        function display(){
+            let calc = calculations[parseInt(document.querySelector("#calcType").value)]
+            document.querySelector("#inputUnit").innerText = calc.inputUnit();
+            document.querySelector("#outputUnit").innerText = calc.outputUnit();
+            document.querySelector("#result").innerText = calc.calculate(document.querySelector("#nrInput").value).toFixed(2);
+        }
+    </script>
+    <title>Calculations</title>
+</head>
+<body style="background-color: black; color: white;">
+    <section style="display:flex; align-items: center; justify-content: center; font-family:'Courier New', Courier, monospace;  flex-direction: column; padding:10px; margin: 10px;">
+        <h2>Calcuate inches -> cm OR cm -> inches</h2>
+        <label for="nrInput">Input:</label>
+        <div style="flex-direction: row; margin-top: 10px;">
+            <input type="number" id="nrInput" id="nrInput">
+            <span for="nrInput" id="inputUnit">ühik</span>
+        </div>
+        <button type="button" id="submitBtn" style="margin-top: 10px; border-radius: 20px; background-color:blueviolet">Calculate</button>
+        <label for="result" style="padding-top: 10px;">Result:</label>
+        <div id="result" style="padding-top: 10px;">
+            Result
+        </div>
+        <span for="result" id="outputUnit">ühik</span>
+        <label for="calcType">Teisendus</label>
+        <select name="calcType" id="calcType">
+            <option value="0" selected>cm -> in</option>
+            <option value="1">in -> cm</option>
+        </select>
+    </section>
+</body>
+</html>
