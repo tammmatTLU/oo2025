@@ -45,9 +45,9 @@ class numberArray{
     }
 }
 
-let test = new numberArray([1,2,3,4,5]);
-console.log(test.showAvg());
-test.addNumber(6);
-console.log(test.showAvg());
-test.addNumber(7);
-console.log(test.showAvg());
+let katse = new numberArray([1,2,3,4,5]);
+console.log(katse.showAvg());
+katse.addNumber(6);
+console.log(katse.showAvg());
+katse.addNumber(7);
+console.log(katse.showAvg());
