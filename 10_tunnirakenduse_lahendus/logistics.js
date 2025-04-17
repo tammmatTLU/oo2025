@@ -158,30 +158,43 @@ var WarehouseComplex = /** @class */ (function (_super) {
     };
     return WarehouseComplex;
 }(LogisticsUnit));
-var küttepuud = new Solid(10000);
-var bensiin = new Liquid(1000);
-var ladu1 = new Warehouse("Ladu #1", 20000);
-var ladu2 = new Warehouse("Ladu #2", 15000);
-var tank1 = new LiquidContainer("Tank #1", 12000);
-var kompleks1 = new WarehouseComplex();
+var Vehicle = /** @class */ (function (_super) {
+    __extends(Vehicle, _super);
+    function Vehicle(regNumber, maxCapacity, unit) {
+        var _this = _super.call(this) || this;
+        _this.avgSpeed = 90;
+        _this.regNumber = regNumber;
+        _this.maxCapacity = maxCapacity;
+        _this.unit = unit;
+        return _this;
+    }
+    Vehicle.prototype.getRegNumber = function () {
+        return this.regNumber;
+    };
+    Vehicle.prototype.getInfo = function () {
+        return "Maximum Capacity: ".concat(this.maxCapacity).concat(this.unit, "\nAverage speed: ").concat(this.avgSpeed);
+    };
+    return Vehicle;
+}(LogisticsUnit));
+/*
+let küttepuud = new Solid(10000);
+let bensiin = new Liquid(1000);
+let ladu1 = new Warehouse("Ladu #1", 20000);
+let ladu2 = new Warehouse("Ladu #2", 15000);
+let tank1 = new LiquidContainer("Tank #1", 12000);
+let kompleks1 = new WarehouseComplex();
 kompleks1.addWarehouse(ladu1);
 kompleks1.addWarehouse(ladu2);
 kompleks1.addLiquidContainer(tank1);
-for (var i = 0; i < kompleks1.storageUnits.length; i++) {
-    if (kompleks1.storageUnits[i].type == "Warehouse") {
+
+for(let i=0;i<kompleks1.storageUnits.length;i++){
+    if(kompleks1.storageUnits[i].type == "Warehouse"){
         kompleks1.storageUnits[i].addCargo(küttepuud);
-    }
-    else {
+    } else{
         kompleks1.storageUnits[i].addCargo(bensiin);
     }
 }
 console.log(kompleks1.getInfo());
 ladu1.removeCargo(10000);
 console.log(ladu1.getInfo());
-/*
-let bensiin = new Liquid(300);
-let küttepuud = new Solid(20000);
-
-console.log(bensiin.getInfo());
-console.log(küttepuud.getInfo());
 */ 

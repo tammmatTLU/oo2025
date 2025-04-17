@@ -125,6 +125,30 @@ class WarehouseComplex extends LogisticsUnit{
     }
 }
 
+class Vehicle extends LogisticsUnit{
+    protected regNumber: string;
+    protected maxCapacity:number;
+    protected unit:string;
+    protected avgSpeed:number = 90;
+
+    constructor(regNumber, maxCapacity, unit){
+        super();
+        this.regNumber = regNumber;
+        this.maxCapacity = maxCapacity;
+        this.unit = unit;
+    }
+
+    getRegNumber():string{
+        return this.regNumber;
+    }
+
+    getInfo():string{
+        return `Maximum Capacity: ${this.maxCapacity}${this.unit}\nAverage speed: ${this.avgSpeed}`;
+    }
+
+    
+}
+/*
 let küttepuud = new Solid(10000);
 let bensiin = new Liquid(1000);
 let ladu1 = new Warehouse("Ladu #1", 20000);
@@ -145,11 +169,4 @@ for(let i=0;i<kompleks1.storageUnits.length;i++){
 console.log(kompleks1.getInfo());
 ladu1.removeCargo(10000);
 console.log(ladu1.getInfo());
-
-/*
-let bensiin = new Liquid(300);
-let küttepuud = new Solid(20000);
-
-console.log(bensiin.getInfo());
-console.log(küttepuud.getInfo());
 */
