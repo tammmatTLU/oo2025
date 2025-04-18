@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics Management</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="logistics.js" defer></script>
+    <script>
+        let truckList = [];
+        let tankerList = [];
+        let warehouseList = [];
+        let liquidContainerList = [];
+        let solidList = [];
+        let liquidList = [];
+        let deliveryList = [];
+
+        window.onload = function(){
+            $("#addVehicle").click(createVehicle);
+            $("#addStorageFacility").click(createStorageFacility);
+            $("#addCargo").click(addCargoToStorageFacility);
+            $("#addDelivery").click(createDelivery);
+            $("#deliveryType").change(renderDeliveryOptions);
+            $("#cargoType").change(renderFacilityOptions);
+            renderDeliveryOptions();
+            renderFacilityOptions();
+        }
+        function renderDeliveryOptions(){
+            $("#deliveryCargo").empty();
+            $("#deliverySource").empty();
+            $("#deliveryDestination").empty();
+            $("#deliveryVehicle").empty();
+            if($("#deliveryType").val()=="Solid"){
+                for(let i=0;i<warehouseList.length;i++){
+                    $("#deliverySource").append(`<option value="${i}">${warehouseList[i].name}</option>`);
+                    $("#deliveryDestination").append(`<option value="${i}">${warehouseList[i].name}</option>`);
+                }
+                for(let i=0;i<truckList.length;i++){
+                    $("#deliveryVehicle").append(`<option value="${i}">${truckList[i].regNumber}</option>`);
+                }
+            }else if($("#deliveryType").val()=="Liquid"){
+                for(let i=0;i<liquidContainerList.length;i++){
+                    $("#deliverySource").append(`<option value="${i}">${liquidContainerList[i].name}</option>`);
+                    $("#deliveryDestination").append(`<option value="${i}">${liquidContainerList[i].name}</option>`);
+                }
+                for(let i=0;i<tankerList.length;i++){
+                    $("#deliveryVehicle").append(`<option value="${i}">${tankerList[i].regNumber}</option>`);
+                }
+            }
+            
+        }
+
+        function addCargoToStorageFacility(){
+            const selectedIndex = parseInt($("#facilitySelect").val()); // Get the selected index
+            const selectedFacility = $("#facilityType").val() === "kg" 
+                ? warehouseList[selectedIndex] 
+                : liquidContainerList[selectedIndex]; // Retrieve the correct object
+            if(selectedFacility.unit === "kg"){
+                selectedFacility.addCargo(new Solid(parseInt($("#cargoAmount").val())));
+            }else if(selectedFacility.unit === "l"){
+                selectedFacility.addCargo(new Liquid(parseInt($("#cargoAmount").val())));
+            }
+            renderFacilityOptions();
+        }
+
+        function renderFacilityOptions(){
+            $("#facilitySelect").empty();
+            if($("#cargoType").val()==="kg"){
+                $("#cargoUnit").html("kg");
+                for(let i=0;i<warehouseList.length;i++){
+                    $("#facilitySelect").append(`<option value="${i}">${warehouseList[i].name}</option>`);
+                }
+            }else if($("#cargoType").val()==="l"){
+                $("#cargoUnit").html("l");
+                for(let i=0;i<liquidContainerList.length;i++){
+                    $("#facilitySelect").append(`<option value="${i}">${liquidContainerList[i].name}</option>`);
+                }
+            }
+        }
+
+        function createVehicle(){
+            if($("#unit").val()=="kg"){
+                truckList.push(new Vehicle($("#regNumber").val(), parseInt($("#maxCapacity").val()), "kg"));
+            } else if($("#unit").val()=="l"){
+                tankerList.push(new Vehicle($("#regNumber").val(), parseInt($("#maxCapacity").val()), "l"));
+            }
+            $("#regNumber").val("");
+            $("#maxCapacity").val("");
+            renderDeliveryOptions();
+        }
+        function createStorageFacility(){
+            if($("#facilityType").val()=="kg"){
+                warehouseList.push(new Warehouse($("#facilityName").val(), $("#facilityCapacity").val()));
+            } else if($("#facilityType").val()=="l"){
+                liquidContainerList.push(new LiquidContainer($("#facilityName").val(), $("#facilityCapacity").val()));
+            }
+            $("#facilityName").val("");
+            $("#facilityCapacity").val("");
+            renderDeliveryOptions();
+            renderFacilityOptions();
+        }
+
+        function createDelivery(){
+            deliveryList.push(new Delivery($("#deliveryCargo").val(), $("#deliverySource").val(), $("#deliveryDestination").val(), $("#deliveryVehicle").val()));
+        }
+    </script>
+</head>
+<body>
+    <h1>Logistics Management</h1>
+
+    <section>
+        <h2>Create Vehicle</h2>
+            <label for="regNumber">Registration Number:</label>
+            <input type="text" id="regNumber" required>
+            <label for="maxCapacity">Maximum Capacity:</label>
+            <input type="number" id="maxCapacity" required>
+            <label for="unit">Unit:</label>
+            <select name="unit" id="unit">
+                <option value="kg">kg</option>
+                <option value="l">l</option>
+            </select>
+            <button type="submit" id="addVehicle">Add Vehicle</button>
+    </section>
+
+    <section>
+        <h2>Create Storage Facility</h2>
+            <label for="facilityName">Name:</label>
+            <input type="text" id="facilityName" required>
+            <label for="facilityCapacity">Maximum Capacity:</label>
+            <input type="number" id="facilityCapacity" required>
+            <label for="facilityType">Type:</label>
+            <select name="facilityType" id="facilityType">
+                <option value="kg">kg</option>
+                <option value="l">l</option>
+            </select>
+            <button type="submit" id="addStorageFacility">Add Storage Facility</button>
+    </section>
+
+    <section>
+        <h2>Add Cargo to Storage Facility</h2>
+            <label for="cargoType">Select type of facility:</label>
+            <select name="cargoType" id="cargoType">
+                <option value="kg">Warehouse</option>
+                <option value="l">Liquid Container</option>
+            </select>
+            <label for="facilitySelect">Select Facility:</label>
+            <select name="facilitySelect" id="facilitySelect"></select>
+            <label for="cargoAmount">Enter cargo amount:</label>
+            <input type="number" id="cargoAmount" required><span id="cargoUnit"></span>
+            <button type="submit" id="addCargo">Add Cargo</button>
+    </section>
+
+    <section>
+        <h2>Create Delivery</h2>
+            <label for="deliveryType">Type:</label>
+            <select name="deliveryType" id="deliveryType">
+                <option value="Solid">Solid</option>
+                <option value="Liquid">Liquid</option>
+            </select>
+            <label for="deliveryCargo">Enter cargo amount:</label>
+            <input type="number" id="deliveryCargo" required>
+            <label for="deliverySource">Source:</label>
+            <select name="deliverySource" id="deliverySource"></select>
+            <label for="deliveryDestination">Destination:</label>
+            <select name="deliveryDestination" id="deliveryDestination"></select>
+            <label for="deliveryVehicle">Vehicle:</label>
+            <select name="deliveryVehicle" id="deliveryVehicle"></select>
+            <button type="submit" id="addDelivery">Create Delivery</button>
+    </section>
+
+    <section>
+        <h2>Delivery List</h2>
+        <div id="deliveryList">
+        </div>
+        <button type="submit" id="loadDeliveries">Load Deliveries</button>
+    </section>
+</body>
+</html>

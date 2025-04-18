@@ -136,7 +136,6 @@ class Vehicle extends LogisticsUnit{
     protected regNumber:string;
     protected maxCapacity:number;
     protected unit:string;
-    protected avgSpeed:number = 90;
 
     constructor(regNumber, maxCapacity, unit){
         super();
@@ -150,7 +149,7 @@ class Vehicle extends LogisticsUnit{
     }
 
     getInfo():string{
-        return `Maximum Capacity:${this.maxCapacity}${this.unit}\nAverage speed:${this.avgSpeed}`;
+        return `Maximum Capacity:${this.maxCapacity}${this.unit}`;
     }
 }
 
