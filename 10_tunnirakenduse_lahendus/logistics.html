@@ -6,104 +6,8 @@
     <title>Logistics Management</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="logistics.js" defer></script>
-    <script>
-        let truckList = [];
-        let tankerList = [];
-        let warehouseList = [];
-        let liquidContainerList = [];
-        let solidList = [];
-        let liquidList = [];
-        let deliveryList = [];
-
-        window.onload = function(){
-            $("#addVehicle").click(createVehicle);
-            $("#addStorageFacility").click(createStorageFacility);
-            $("#addCargo").click(addCargoToStorageFacility);
-            $("#addDelivery").click(createDelivery);
-            $("#deliveryType").change(renderDeliveryOptions);
-            $("#cargoType").change(renderFacilityOptions);
-            renderDeliveryOptions();
-            renderFacilityOptions();
-        }
-        function renderDeliveryOptions(){
-            $("#deliveryCargo").empty();
-            $("#deliverySource").empty();
-            $("#deliveryDestination").empty();
-            $("#deliveryVehicle").empty();
-            if($("#deliveryType").val()=="Solid"){
-                for(let i=0;i<warehouseList.length;i++){
-                    $("#deliverySource").append(`<option value="${i}">${warehouseList[i].name}</option>`);
-                    $("#deliveryDestination").append(`<option value="${i}">${warehouseList[i].name}</option>`);
-                }
-                for(let i=0;i<truckList.length;i++){
-                    $("#deliveryVehicle").append(`<option value="${i}">${truckList[i].regNumber}</option>`);
-                }
-            }else if($("#deliveryType").val()=="Liquid"){
-                for(let i=0;i<liquidContainerList.length;i++){
-                    $("#deliverySource").append(`<option value="${i}">${liquidContainerList[i].name}</option>`);
-                    $("#deliveryDestination").append(`<option value="${i}">${liquidContainerList[i].name}</option>`);
-                }
-                for(let i=0;i<tankerList.length;i++){
-                    $("#deliveryVehicle").append(`<option value="${i}">${tankerList[i].regNumber}</option>`);
-                }
-            }
-            
-        }
-
-        function addCargoToStorageFacility(){
-            const selectedIndex = parseInt($("#facilitySelect").val()); // Get the selected index
-            const selectedFacility = $("#facilityType").val() === "kg" 
-                ? warehouseList[selectedIndex] 
-                : liquidContainerList[selectedIndex]; // Retrieve the correct object
-            if(selectedFacility.unit === "kg"){
-                selectedFacility.addCargo(new Solid(parseInt($("#cargoAmount").val())));
-            }else if(selectedFacility.unit === "l"){
-                selectedFacility.addCargo(new Liquid(parseInt($("#cargoAmount").val())));
-            }
-            renderFacilityOptions();
-        }
-
-        function renderFacilityOptions(){
-            $("#facilitySelect").empty();
-            if($("#cargoType").val()==="kg"){
-                $("#cargoUnit").html("kg");
-                for(let i=0;i<warehouseList.length;i++){
-                    $("#facilitySelect").append(`<option value="${i}">${warehouseList[i].name}</option>`);
-                }
-            }else if($("#cargoType").val()==="l"){
-                $("#cargoUnit").html("l");
-                for(let i=0;i<liquidContainerList.length;i++){
-                    $("#facilitySelect").append(`<option value="${i}">${liquidContainerList[i].name}</option>`);
-                }
-            }
-        }
-
-        function createVehicle(){
-            if($("#unit").val()=="kg"){
-                truckList.push(new Vehicle($("#regNumber").val(), parseInt($("#maxCapacity").val()), "kg"));
-            } else if($("#unit").val()=="l"){
-                tankerList.push(new Vehicle($("#regNumber").val(), parseInt($("#maxCapacity").val()), "l"));
-            }
-            $("#regNumber").val("");
-            $("#maxCapacity").val("");
-            renderDeliveryOptions();
-        }
-        function createStorageFacility(){
-            if($("#facilityType").val()=="kg"){
-                warehouseList.push(new Warehouse($("#facilityName").val(), $("#facilityCapacity").val()));
-            } else if($("#facilityType").val()=="l"){
-                liquidContainerList.push(new LiquidContainer($("#facilityName").val(), $("#facilityCapacity").val()));
-            }
-            $("#facilityName").val("");
-            $("#facilityCapacity").val("");
-            renderDeliveryOptions();
-            renderFacilityOptions();
-        }
-
-        function createDelivery(){
-            deliveryList.push(new Delivery($("#deliveryCargo").val(), $("#deliverySource").val(), $("#deliveryDestination").val(), $("#deliveryVehicle").val()));
-        }
-    </script>
+    <script src="application.js" defer></script>
+    <link rel="stylesheet" href="logistics.css">
 </head>
 <body>
     <h1>Logistics Management</h1>
@@ -170,9 +74,12 @@
 
     <section>
         <h2>Delivery List</h2>
-        <div id="deliveryList">
-        </div>
-        <button type="submit" id="loadDeliveries">Load Deliveries</button>
+        <div id="deliveryList"></div>
+    </section>
+
+    <section>
+        <h2>Overview of current state</h2>
+        <div id="overview"></div>
     </section>
 </body>
 </html>
