@@ -114,24 +114,6 @@ class LiquidContainer extends StorageFacility{
     }
 }
 
-class WarehouseComplex extends LogisticsUnit{
-    storageUnits:StorageFacility[] = [];
-
-    addWarehouse(newWarehouse:Warehouse){
-        this.storageUnits.push(newWarehouse);
-    }
-
-    addLiquidContainer(newLiquidContainer:LiquidContainer){
-        this.storageUnits.push(newLiquidContainer);
-    }
-
-    getInfo():string{
-        let storageSummaries:string[] = [];
-        for(let storageFacility of this.storageUnits){storageSummaries.push(storageFacility.getInfo())}
-        return `Laokompleksis on ${this.storageUnits.length} erinevat hoidlat.\nNende hoidlate laoseisud:${storageSummaries}`;
-    }
-}
-
 class Vehicle extends LogisticsUnit{
     protected regNumber:string;
     protected maxCapacity:number;
@@ -193,66 +175,3 @@ class Delivery{
         return this.status;
     }
 }
-
-
-/*
-let küttepuud = new Solid(10000);
-let bensiin = new Liquid(1000);
-let ladu1 = new Warehouse("Ladu #1", 20000);
-let ladu2 = new Warehouse("Ladu #2", 15000);
-let tank1 = new LiquidContainer("Tank #1", 12000);
-let tank2 = new LiquidContainer("Tank #2", 24000);
-let kastikas = new Vehicle("123EKR", 20000, "kg");
-let tankur = new Vehicle("456EKR", 4000, "l");
-
-ladu1.addCargo(küttepuud);
-ladu1.addCargo(küttepuud);
-tank1.addCargo(bensiin);
-tank1.addCargo(bensiin);
-
-let delivery1 = new Delivery(küttepuud, ladu1, ladu2, kastikas);
-let delivery2 = new Delivery(bensiin, tank1, tank2, tankur);
-
-console.log(ladu1.getInfo());
-console.log(ladu2.getInfo());
-console.log(delivery1.getInfo());
-delivery1.startDelivery();
-console.log(ladu1.getInfo());
-console.log(ladu2.getInfo());
-console.log(delivery1.getStatus());
-delivery1.completeDelivery();
-console.log(ladu1.getInfo());
-console.log(ladu2.getInfo());
-console.log(delivery1.getStatus());
-
-console.log(tank1.getInfo());
-console.log(tank2.getInfo());
-console.log(delivery2.getInfo());
-delivery2.startDelivery();
-console.log(tank1.getInfo());
-console.log(tank2.getInfo());
-console.log(delivery2.getStatus());
-delivery2.completeDelivery();
-console.log(tank1.getInfo());
-console.log(tank2.getInfo());
-console.log(delivery2.getStatus());
-
-
-
-
-let kompleks1 = new WarehouseComplex();
-kompleks1.addWarehouse(ladu1);
-kompleks1.addWarehouse(ladu2);
-kompleks1.addLiquidContainer(tank1);
-
-for(let i=0;i<kompleks1.storageUnits.length;i++){
-    if(kompleks1.storageUnits[i].type == "Warehouse"){
-        kompleks1.storageUnits[i].addCargo(küttepuud);
-    } else{
-        kompleks1.storageUnits[i].addCargo(bensiin);
-    }
-}
-console.log(kompleks1.getInfo());
-ladu1.removeCargo(10000);
-console.log(ladu1.getInfo());
-*/

@@ -5,7 +5,7 @@ let liquidContainerList = [];
 let deliveryList = [];
 
 window.onload = function () {
-    loadListsFromLocalStorage(); // Load lists from localStorage on page load
+    loadListsFromLocalStorage();
 
     $("#addVehicle").click(createVehicle);
     $("#addStorageFacility").click(createStorageFacility);
@@ -57,7 +57,7 @@ function loadListsFromLocalStorage() {
         warehouseList = JSON.parse(localStorage.getItem("warehouseList")).map(
             (item) => {
                 const warehouse = new Warehouse(item.name, item.maxCapacity);
-                warehouse.currentCapacity = item.currentCapacity; // Restore current capacity
+                warehouse.currentCapacity = item.currentCapacity;
                 return warehouse;
             }
         );
@@ -66,7 +66,7 @@ function loadListsFromLocalStorage() {
         liquidContainerList = JSON.parse(localStorage.getItem("liquidContainerList")).map(
             (item) => {
                 const container = new LiquidContainer(item.name, item.maxCapacity);
-                container.currentCapacity = item.currentCapacity; // Restore current capacity
+                container.currentCapacity = item.currentCapacity;
                 return container;
             }
         );
@@ -74,12 +74,10 @@ function loadListsFromLocalStorage() {
     if (localStorage.getItem("deliveryList")) {
         deliveryList = JSON.parse(localStorage.getItem("deliveryList")).map(
             (item) => {
-                // Reconstruct cargo
                 const cargo = item.cargo.unit === "kg"
                     ? new Solid(item.cargo.amount)
                     : new Liquid(item.cargo.amount);
 
-                // Find the source and destination storage facilities
                 const source = item.cargo.unit === "kg"
                     ? warehouseList.find((w) => w.name === item.source.name)
                     : liquidContainerList.find((c) => c.name === item.source.name);
@@ -88,14 +86,12 @@ function loadListsFromLocalStorage() {
                     ? warehouseList.find((w) => w.name === item.destination.name)
                     : liquidContainerList.find((c) => c.name === item.destination.name);
 
-                // Find the assigned vehicle
                 const vehicle = item.cargo.unit === "kg"
                     ? truckList.find((v) => v.regNumber === item.assignedVehicle.regNumber)
                     : tankerList.find((v) => v.regNumber === item.assignedVehicle.regNumber);
 
-                // Reconstruct the Delivery object
                 const delivery = new Delivery(cargo, source, destination, vehicle);
-                delivery.status = item.status; // Restore the status
+                delivery.status = item.status;
                 return delivery;
             }
         );
@@ -257,18 +253,15 @@ function renderDeliveries() {
 
 function renderOverview() {
     const overviewDiv = $("#overview");
-    overviewDiv.empty(); // Clear the existing content
+    overviewDiv.empty();
 
-    // Combine all storage facilities into one array
     const allStorageFacilities = [...warehouseList, ...liquidContainerList];
 
     if (allStorageFacilities.length === 0) {
-        // Display a message if no storage facilities are present
         overviewDiv.append("<p>There are currently no storage facilities</p>");
         return;
     }
 
-    // Create a table for the overview
     const table = $("<table>").addClass("overview-table");
     const headerRow = `
         <tr>
@@ -280,7 +273,6 @@ function renderOverview() {
     `;
     table.append(headerRow);
 
-    // Add rows for each storage facility
     allStorageFacilities.forEach((facility) => {
         const row = `
             <tr>
@@ -292,8 +284,7 @@ function renderOverview() {
         `;
         table.append(row);
     });
-
-    // Append the table to the overview div
+    
     overviewDiv.append(table);
 }
 
