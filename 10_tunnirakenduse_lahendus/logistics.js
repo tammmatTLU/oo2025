@@ -13,15 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var LogisticsUnit = /** @class */ (function () {
-    function LogisticsUnit() {
-    }
-    return LogisticsUnit;
-}());
-var Cargo = /** @class */ (function (_super) {
-    __extends(Cargo, _super);
+var Cargo = /** @class */ (function () {
     function Cargo() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
     Cargo.prototype.getInfo = function () {
         return this.unit;
@@ -30,7 +23,7 @@ var Cargo = /** @class */ (function (_super) {
         return this.amount;
     };
     return Cargo;
-}(LogisticsUnit));
+}());
 var Liquid = /** @class */ (function (_super) {
     __extends(Liquid, _super);
     function Liquid(amount) {
@@ -51,13 +44,11 @@ var Solid = /** @class */ (function (_super) {
     }
     return Solid;
 }(Cargo));
-var StorageFacility = /** @class */ (function (_super) {
-    __extends(StorageFacility, _super);
+var StorageFacility = /** @class */ (function () {
     function StorageFacility() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
     return StorageFacility;
-}(LogisticsUnit));
+}());
 var Warehouse = /** @class */ (function (_super) {
     __extends(Warehouse, _super);
     function Warehouse(name, maxCapacity) {
@@ -101,9 +92,6 @@ var LiquidContainer = /** @class */ (function (_super) {
         _this.name = name;
         return _this;
     }
-    LiquidContainer.prototype.getInfo = function () {
-        return "\nName:".concat(this.name, "\nAmount:").concat(this.currentCapacity).concat(this.unit);
-    };
     LiquidContainer.prototype.addCargo = function (cargo) {
         if (this.currentCapacity + cargo.getAmount() <= this.maxCapacity) {
             this.currentCapacity += cargo.getAmount();
@@ -122,23 +110,20 @@ var LiquidContainer = /** @class */ (function (_super) {
     };
     return LiquidContainer;
 }(StorageFacility));
-var Vehicle = /** @class */ (function (_super) {
-    __extends(Vehicle, _super);
+var Vehicle = /** @class */ (function () {
     function Vehicle(regNumber, maxCapacity, unit) {
-        var _this = _super.call(this) || this;
-        _this.regNumber = regNumber;
-        _this.maxCapacity = maxCapacity;
-        _this.unit = unit;
-        return _this;
+        this.regNumber = regNumber;
+        this.maxCapacity = maxCapacity;
+        this.unit = unit;
     }
     Vehicle.prototype.getRegNumber = function () {
         return this.regNumber;
     };
-    Vehicle.prototype.getInfo = function () {
-        return "Maximum Capacity:".concat(this.maxCapacity).concat(this.unit);
+    Vehicle.prototype.getMaxCapacity = function () {
+        return this.maxCapacity;
     };
     return Vehicle;
-}(LogisticsUnit));
+}());
 var Delivery = /** @class */ (function () {
     function Delivery(cargo, source, destination, assignedVehicle) {
         this.cargo = cargo;

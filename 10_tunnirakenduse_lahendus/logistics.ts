@@ -1,8 +1,4 @@
-abstract class LogisticsUnit{
-    abstract getInfo():string;
-}
-
-abstract class Cargo extends LogisticsUnit{
+abstract class Cargo{
     abstract unit:string;
     protected abstract amount:number;
 
@@ -35,7 +31,7 @@ class Solid extends Cargo{
     }
 }
 
-abstract class StorageFacility extends LogisticsUnit{
+abstract class StorageFacility{
     abstract maxCapacity:number;
     abstract currentCapacity:number;
     abstract type:string;
@@ -93,10 +89,6 @@ class LiquidContainer extends StorageFacility{
         this.name = name;
     }
 
-    getInfo():string{
-        return `\nName:${this.name}\nAmount:${this.currentCapacity}${this.unit}`;
-    }
-
     addCargo(cargo:Liquid):void{
         if(this.currentCapacity+cargo.getAmount()<=this.maxCapacity){
             this.currentCapacity+=cargo.getAmount();
@@ -114,13 +106,12 @@ class LiquidContainer extends StorageFacility{
     }
 }
 
-class Vehicle extends LogisticsUnit{
+class Vehicle{
     protected regNumber:string;
     protected maxCapacity:number;
     protected unit:string;
 
     constructor(regNumber, maxCapacity, unit){
-        super();
         this.regNumber = regNumber;
         this.maxCapacity = maxCapacity;
         this.unit = unit;
@@ -130,8 +121,8 @@ class Vehicle extends LogisticsUnit{
         return this.regNumber;
     }
 
-    getInfo():string{
-        return `Maximum Capacity:${this.maxCapacity}${this.unit}`;
+    getMaxCapacity():number{
+        return this.maxCapacity;
     }
 }
 
